@@ -1,10 +1,8 @@
-<?php
-session_start();
-?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>FarmFresh Mango - Success</title>
+    <title>FarmFresh Mango - Login Error</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -16,33 +14,28 @@ session_start();
 </head>
 
 <body>
-    <?php require 'menu.php'; // Include the navigation menu ?>
+    <?php require 'menu.php'; ?>
 
     <section id="banner" class="wrapper">
         <div class="container">
             <header class="major">
-                <h2>Success</h2>
+                <h2>Login Error</h2>
             </header>
             <p>
                 <?php
-                // Check and display the session message securely
                 if (isset($_SESSION['message']) && !empty($_SESSION['message'])) {
-                    echo htmlspecialchars($_SESSION['message']); // Sanitize output to prevent XSS
+                    echo htmlspecialchars($_SESSION['message']);
                 } else {
-                    // Redirect to the home page if no message is set
-                    header("Location: ../index.php");
-                    exit(); // Stop further script execution
+                    echo "An unexpected error occurred. Please try again.";
                 }
                 ?>
-            </p>
-            <br />
-            <a href="../index.php" class="button special">Go to Home</a>
+            </p><br />
+            <a href="<?= isset($_SERVER['HTTP_REFERER']) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : '../index.php' ?>" 
+               class="button special">Retry</a>
         </div>
     </section>
 
-    <?php
-    // Clear the session message after displaying it
-    unset($_SESSION['message']);
-    ?>
+    <?php $_SESSION['message'] = ""; ?>
+
 </body>
 </html>
